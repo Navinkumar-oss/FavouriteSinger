@@ -1,0 +1,43 @@
+import java.math.BigInteger;
+import java.util.*;
+ 
+class myClass {
+    public static void main(String args[] ) throws Exception {
+        Scanner sc=new Scanner(System.in);
+        int sCount=sc.nextInt();
+        sc.nextLine();
+        String sInput = sc.nextLine();
+        int sInputLength=sInput.length();
+        sc.close();
+        String[] sArray=sInput.split("\\s+");
+        HashMap<BigInteger, Integer> singerCount=new HashMap<BigInteger,Integer>();
+        Arrays.stream(sArray).forEach(item -> {
+            BigInteger s=new BigInteger(item);
+            if(singerCount.containsKey(s)) {
+                singerCount.put(s,singerCount.get(s)+1);
+            }else{
+                singerCount.put(s,1);
+            }
+        });
+        if(sCount !=sArray.length){
+            throw new Exception("Expected song count mismatch");
+        }
+        BigInteger topSinger=new BigInteger("0");
+        Integer topSingerCount=0;
+        HashMap<BigInteger, Integer> favSingers=new HashMap<BigInteger, Integer>();
+        for(Map.Entry<BigInteger, Integer> entry:singerCount.entrySet()){
+            if(topSingerCount.compareTo(entry.getValue())==-1){
+                topSinger=entry.getKey();
+                topSingerCount=entry.getValue();
+                favSingers.clear();
+                favSingers.put(entry.getKey(),entry.getValue());
+ 
+            }else if(topSingerCount.compareTo(entry.getValue())==0){
+                favSingers.put(entry.getKey(), entry.getValue());
+            }
+        }
+        System.out.println(favSingers.size());
+        
+        
+    }
+}
